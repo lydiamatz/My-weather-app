@@ -1,0 +1,23 @@
+body {
+  background-color: #f9f7fe;
+  font-family: "Roboto", sans-serif;
+   font-optical-sizing: auto;
+  font-weight: <weight>;
+  font-style: normal;
+  font-variation-settings: "wdth" 100;
+}
+}
+
+.weather-app {
+  background: white;
+  max-width: 600px;
+  margin: 45px auto;
+  border-radius: 10px;
+  box-shadow: 0 30px 50px rgba(65, 50, 100, 0.08);
+  border-radius: 10px;
+  padding: 30px;
+}
+
+.roboto-<uniquifier > {
+  font-family: "Roboto", sans-serif;
+ 

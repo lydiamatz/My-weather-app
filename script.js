@@ -18,7 +18,7 @@ function refreshWeather(response) {
 }
 
 function formatDate(date) {
-  let day = date.getDay();
+  let dayIndex = date.getDay();
   let hours = date.getHours();
   let minutes = date.getMinutes();
   let days = [
@@ -36,9 +36,9 @@ function formatDate(date) {
   if (minutes < 10) {
     minutes = `0${minutes}`;
   }
-}
 
-return `${day} ${hours}:${minutes}`;
+  return `${day} ${hours}:${minutes}`;
+}
 
 function handleSearchSubmit(event) {
   event.preventDefault();

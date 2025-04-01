@@ -3,10 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Preconnect for Faster Font Loading -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- Google Fonts -->
     <link
-      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;700;900&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="style.css" />
@@ -32,15 +35,20 @@
           <div>
             <h1 class="weather-app-city" id="city">Paris</h1>
             <p class="weather-app-details">
-              <span id="time"></span> <span id="description"></span>
+              <span id="time">Friday 12:16</span>
+              <span id="description">scattered clouds </span>
             </p>
             <p class="weather-app-details">
-              Humidity: <strong id="humidity"></strong>, Wind:
-              <strong id="wind"></strong>
+              Humidity: <strong id="humidity">52%</strong>, Wind:
+              <strong id="wind">6.69km/h</strong>
             </p>
           </div>
           <div class="weather-app-temperature-container">
-            <div class="weather-app-icon">⛅</div>
+            <img
+              src="http://shecodes-assets.s3.amazonaws.com/api/weather/icons/rain-day.png"
+              class="weather-app-icon"
+            />
+
             <div class="weather-app-value" id="temperature">12</div>
             <div class="weather-app-unit">°C</div>
           </div>

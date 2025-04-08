@@ -10,10 +10,10 @@ a {
 .weather-app {
   max-width: 600px;
   margin: 45px auto;
-  padding: 45px 70px 30px 40px;
+  padding: 30px;
   border-radius: 10px;
   background-color: #180c24;
-  border: 2px solid cyan; /* Neon border */
+  border-radius: 2px solid cyan; /* Neon border */
   box-shadow: 0 0 1px cyan, 0 0 25px cyan, 0 0 3px cyan; /* Neon glow */
 }
 header {
@@ -28,8 +28,7 @@ header {
 
 .search-form-input {
   background-color: #f9f7fe;
-  border: 3px solid rgba(255, 0, 127, 255);
-  border-radius: 6px;
+  border-radius: 6px solid rgba(255, 0, 127, 255);
   width: 75%;
   font-size: 16px;
   padding: 15px 20px;
@@ -69,7 +68,7 @@ h1 {
   margin: 0px;
   font-size: 37px;
   font-weight: 100;
-  text-shadow: 0 0 15px #ff007f, 0 0 1px #ff007f, 0 0 20px #ff007f;
+  text-shadow: 0 0 20px #ff007f, 0 0 1px #ff007f, 0 0 px #ff007f;
 }
 
 /* Optional: To control spacing further if needed */
@@ -111,6 +110,37 @@ h1 {
 .weather-app-unit {
   font-size: 28px;
   margin-left: 5px; /* Controlled spacing */
+}
+
+.weather-forecast {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+}
+
+.weather-forecast-date {
+  text-align: center;
+  line-height: 20px;
+  font-size: 16px;
+  color: cyan;
+  text-shadow: none;
+  padding: 20px;
+}
+
+.weather-forecast-icon {
+  font-size: 38px;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.weather-forecast-temperature {
+  text-align: center;
+  font-size: 20px;
+  color: cyan;
+  text-shadow: 0 0 15px #ff007f, 0 0 5px #ff007f, 0 0 1px #ff007f;
+  display: flex;
+  justify-content: center;
+  padding: 10px;
 }
 
 footer {

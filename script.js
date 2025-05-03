@@ -2,21 +2,34 @@ let CityElement = document.querySelector("#city");
 let SearchInput = document.querySelector("#search-form-input");
 
 function refreshWeather(response) {
+  console.log("API Response:", response.data); // Debugging log
+
   let temperatureElement = document.querySelector("#temperature");
-  let temperature = response.data.temperature.current;
-  CityElement.innerHTML = SearchInput.value;
+  let temperature = response.data.current.temp_c; // Current temperature in Celsius
+  temperatureElement.innerHTML = `${temperature}°C`;
+
+  let cityElement = document.querySelector("#city");
+  cityElement.innerHTML = response.data.location.name; // City name from the API response
+
   let descriptionElement = document.querySelector("#description");
-  descriptionElement.innerHTML = response.data.condition.description;
+  descriptionElement.innerHTML = response.data.current.condition.text; // Weather description
+
   let humidityElement = document.querySelector("#humidity");
-  humidityElement.innerHTML = `${response.data.temperature.humidity}%`;
-  let windElement = document.querySelector("#wind");
-  windElement.innerHTML = `${response.data.wind.speed}km/h`;
+  humidityElement.innerHTML = `${response.data.current.humidity}%`; // Humidity percentage
+
+  let windSpeedElement = document.querySelector("#wind");
+  windSpeedElement.innerHTML = `${response.data.current.wind_kph} km/h`; // Wind speed in km/h
+
   let timeElement = document.querySelector("#time");
-  console.log(response.data.time);
-  let date = new Date(response.data.time * 1000);
+  let date = new Date(response.data.location.localtime); // Local time from the API
   timeElement.innerHTML = formatDate(date);
-  0;
-  displayForecast();
+
+  // Get coordinates for the forecast API call
+  let lat = response.data.location.lat;
+  let lon = response.data.location.lon;
+
+  // Call getForecast with the coordinates
+  getForecast(lat, lon);
 }
 
 function formatDate(date) {
@@ -54,27 +67,46 @@ function searchCity(city) {
   axios.get(ApiUrl).then(refreshWeather);
 }
 
-function displayForecast() {
-  let days = ["Mon", "Tue", "Wed", "Thu", "Fri"];
+function displayForecast(forecastDays) {
+  console.log("Forecast Data:", forecastDays); // Debugging log
+
   let forecastHtml = "";
 
-  days.forEach(function (day) {
-    forecastHtml =
-      forecastHtml +
-      `<div class="weather-forecast-day">
-            <div class="weather-forecast-date">${day}</div>
-            <div class="weather-forecast-icon">
-              <img
-                src="http://shecodes-assets.s3.amazonaws.com/api/weather/icons/rain-day.png"
-                class="weather-app-icon"/>
-            </div>
-            <div class = "weather-forecast-temperature">12°C</div>
+  forecastDays.forEach(function (day) {
+    forecastHtml += `
+      <div class="weather-forecast-day">
+        <div class="weather-forecast-date">${day.date}</div>
+        <div class="weather-forecast-icon">
+          <img
+            src="${day.condition.icon}"
+            alt="${day.condition.text}"
+            class="weather-app-icon"
+          />
         </div>
-        `;
+        <div class="weather-forecast-temperature">
+          ${day.temperature.max}°C / ${day.temperature.min}°C
+        </div>
+      </div>
+    `;
   });
 
   let forecastElement = document.querySelector("#forecast");
   forecastElement.innerHTML = forecastHtml;
+}
+
+function getForecast(lat, lon) {
+  let apiKey = "be6404to0e1a8c3df9e20496bf57b54b";
+  let apiUrl = `https://api.shecodes.io/weather/v1/forecast?lat=${lat}&lon=${lon}&key=${apiKey}&units=metric`;
+
+  axios
+    .get(apiUrl)
+    .then(function (response) {
+      console.log("Forecast API Response:", response.data); // Debugging log
+      displayForecast(response.data.daily); // Pass the daily forecast data
+    })
+    .catch(function (error) {
+      console.error("Error fetching forecast data:", error);
+    });
 }
 
 let SearchFormElement = document.querySelector("#search-form");

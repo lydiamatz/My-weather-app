@@ -1,4 +1,4 @@
-let CityElement = document.querySelector("#city");
+let ChityElement = document.querySelector("#city");
 let SearchInput = document.querySelector("#search-form-input");
 
 function refreshWeather(response) {

@@ -1,39 +1,27 @@
 let CityElement = document.querySelector("#city");
-let SearchInput = document.querySelector("#search-form-input");
 
 function refreshWeather(response) {
-  console.log("API Response:", response.data); // Debugging log
-
   let temperatureElement = document.querySelector("#temperature");
-  let temperature = response.data.current.temp_c; // Current temperature in Celsius
-  temperatureElement.innerHTML = `${temperature}°C`;
+  let temperature = response.data.temperature.current;
+  temperatureElement.innerHTML = Math.round(temperature);
+  let iconElement = document.querySelector("#icon");
+  iconElement.innerHTML = `<img src="${response.data.condition.icon_url}" class="weather-app-icon" />`;
 
-  let cityElement = document.querySelector("#city");
-  cityElement.innerHTML = response.data.location.name; // City name from the API response
-
+  CityElement.innerHTML = response.data.city;
   let descriptionElement = document.querySelector("#description");
-  descriptionElement.innerHTML = response.data.current.condition.text; // Weather description
-
+  descriptionElement.innerHTML = response.data.condition.description;
   let humidityElement = document.querySelector("#humidity");
-  humidityElement.innerHTML = `${response.data.current.humidity}%`; // Humidity percentage
-
-  let windSpeedElement = document.querySelector("#wind");
-  windSpeedElement.innerHTML = `${response.data.current.wind_kph} km/h`; // Wind speed in km/h
-
+  humidityElement.innerHTML = `${response.data.temperature.humidity}%`;
+  let windElement = document.querySelector("#wind");
+  windElement.innerHTML = `${response.data.wind.speed}km/h`;
   let timeElement = document.querySelector("#time");
-  let date = new Date(response.data.location.localtime); // Local time from the API
+  let date = new Date(response.data.time * 1000);
   timeElement.innerHTML = formatDate(date);
-
-  // Get coordinates for the forecast API call
-  let lat = response.data.location.lat;
-  let lon = response.data.location.lon;
-
-  // Call getForecast with the coordinates
-  getForecast(lat, lon);
+  0;
+  getForecast(response.data.city);
 }
 
 function formatDate(date) {
-  let dayIndex = date.getDay();
   let hours = date.getHours();
   let minutes = date.getMinutes();
   let days = [
@@ -55,59 +43,61 @@ function formatDate(date) {
   return `${day} ${hours}:${minutes}`;
 }
 
-function handleSearchSubmit(event) {
-  event.preventDefault();
-  CityElement.innerHTML = SearchInput.value;
-  searchCity(SearchInput.value);
-}
-
 function searchCity(city) {
   let ApiKey = "be6404to0e1a8c3df9e20496bf57b54b";
   let ApiUrl = `https://api.shecodes.io/weather/v1/current?query=${city}&key=${ApiKey}&units=metric`;
   axios.get(ApiUrl).then(refreshWeather);
 }
 
-function displayForecast(forecastDays) {
-  console.log("Forecast Data:", forecastDays); // Debugging log
+function handleSearchSubmit(event) {
+  event.preventDefault();
+  let SearchInput = document.querySelector("#search-form-input");
+  searchCity(SearchInput.value);
+}
 
+function formatDay(timestamp) {
+  let date = new Date(timestamp * 1000);
+  let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+  return days[date.getDay()];
+}
+
+function getForecast(city) {
+  let apiKey = "b2a5adcct04b33178913oc335f405433";
+  let apiUrl = `https://api.shecodes.io/weather/v1/forecast?query=${city}&key=${apiKey}&units=metric`;
+  axios(apiUrl).then(displayForecast);
+}
+
+function displayForecast(response) {
   let forecastHtml = "";
 
-  forecastDays.forEach(function (day) {
-    forecastHtml += `
+  response.data.daily.forEach(function (day, index) {
+    if (index < 5) {
+      forecastHtml =
+        forecastHtml +
+        `
       <div class="weather-forecast-day">
-        <div class="weather-forecast-date">${day.date}</div>
-        <div class="weather-forecast-icon">
-          <img
-            src="${day.condition.icon}"
-            alt="${day.condition.text}"
-            class="weather-app-icon"
-          />
-        </div>
-        <div class="weather-forecast-temperature">
-          ${day.temperature.max}°C / ${day.temperature.min}°C
+        <div class="weather-forecast-date">${formatDay(day.time)}</div>
+
+        <img src="${day.condition.icon_url}" class="weather-forecast-icon" />
+        <div class="weather-forecast-temperatures">
+          <div class="weather-forecast-temperature">
+            <strong>${Math.round(day.temperature.maximum)}º</strong>
+          </div>
+          <div class="weather-forecast-temperature">${Math.round(
+            day.temperature.minimum
+          )}º</div>
         </div>
       </div>
     `;
+    }
   });
 
   let forecastElement = document.querySelector("#forecast");
   forecastElement.innerHTML = forecastHtml;
 }
 
-function getForecast(lat, lon) {
-  let apiKey = "be6404to0e1a8c3df9e20496bf57b54b";
-  let apiUrl = `https://api.shecodes.io/weather/v1/forecast?lat=${lat}&lon=${lon}&key=${apiKey}&units=metric`;
+let searchFormElement = document.querySelector("#search-form");
+searchFormElement.addEventListener("submit", handleSearchSubmit);
 
-  axios
-    .get(apiUrl)
-    .then(function (response) {
-      console.log("Forecast API Response:", response.data); // Debugging log
-      displayForecast(response.data.daily); // Pass the daily forecast data
-    })
-    .catch(function (error) {
-      console.error("Error fetching forecast data:", error);
-    });
-}
-
-let SearchFormElement = document.querySelector("#search-form");
-SearchFormElement.addEventListener("submit", handleSearchSubmit);
+searchCity("Paris");

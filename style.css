@@ -9,8 +9,8 @@ a {
 
 .weather-app {
   max-width: 600px;
-  margin: 45px auto;
-  padding: 30px;
+  margin: 40px auto;
+  padding: 15px;
   border-radius: 10px;
   background-color: #180c24;
   border-radius: 2px solid cyan; /* Neon border */
@@ -18,22 +18,25 @@ a {
 }
 header {
   border-bottom: 1px solid #f9f7fe;
-  padding: 0px 0px 30px 0px;
+  padding: 0px 0px 10px 0px;
 }
 
 .search-form {
   display: flex; /* Flexbox layout */
-  align-items: center; /* Aligns input and button vertically */
+  align-items: center; /* Align input and button vertically */
+  justify-content: center; /* Center the form horizontally */
+  gap: 5px; /* Reduce spacing between input and button */
+  margin: 20px auto; /* Add some margin around the form */
 }
 
 .search-form-input {
   background-color: #f9f7fe;
-  border-radius: 6px solid rgba(255, 0, 127, 255);
-  width: 75%;
+  border: none;
+  border-radius: 6px;
+  width: 70%;
   font-size: 16px;
   padding: 15px 20px;
   display: inline-block;
-  margin-right: 20px;
 }
 
 .search-form-button {
@@ -46,6 +49,7 @@ header {
   margin-left: 5px;
   text-shadow: 0 0 5px white, 0 0 10px white, 0 0 20px white;
   display: inline-block;
+  justify-content: center;
 }
 
 main {
@@ -65,13 +69,12 @@ h1 {
 }
 
 .weather-app-city {
-  margin: 0px;
+  margin: 0px auto;
   font-size: 37px;
   font-weight: 100;
   text-shadow: 0 0 20px #ff007f, 0 0 1px #ff007f, 0 0 px #ff007f;
 }
 
-/* Optional: To control spacing further if needed */
 .weather-app-details {
   font-size: 15px;
   line-height: 20px;
@@ -115,7 +118,7 @@ h1 {
 .weather-forecast {
   display: flex;
   justify-content: space-between;
-  margin-top: 30px;
+  margin-top: 20px;
 }
 
 .weather-forecast-date {
@@ -150,4 +153,5 @@ footer {
   font-weight: 400;
   color: cyan;
   line-height: 65px;
+  padding: 15px 0 0 0;
 }
